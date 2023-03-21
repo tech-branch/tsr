@@ -37,7 +37,11 @@ os.makedirs(os.path.dirname(FILE_PATH), exist_ok=True)
 with open(FILE_PATH, "r") as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
-        # print(', '.join(row))
+        
+        if len(row) == 0:
+            # omit empty rows
+            continue
+        
         raw_datetime = row[0]
         raw_tags = row[1]
 

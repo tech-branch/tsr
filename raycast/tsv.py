@@ -10,7 +10,7 @@
 # @raycast.packageName Timestamp Recorder HTML view
 
 # Documentation:
-# @raycast.description Compile your records into an HTML table
+# @raycast.description Compile your records into a timeline
 # @raycast.author Tomasz Sobota
 # @raycast.authorURL https://techbranch.net
 
@@ -18,6 +18,15 @@ import datetime
 import webbrowser
 import csv
 import os
+
+
+class RecordType:
+    TSR = 1
+    TSN = 2
+
+class RecordSide:
+    LEFT = "left"
+    RIGHT = "right"
 
 
 # ------------
@@ -28,31 +37,29 @@ import os
 TSR_FILE_PATH = "../records/record.csv"
 TSN_FILE_PATH = "../records/notes.csv"
 HTML_OUTPUT_PATH = "../records/record.html"
+CSS_ASSETS_PATH = "../assets/timeline.css"
 
+DEFAULT_ENTRY_SIDE = RecordSide.LEFT
 
 # ---------
 #  Helpers
 # ---------
 
-# Enum representing either TSR or TSN
-class RecordType:
-    TSR = 1
-    TSN = 2
 
 # function assigning side to a record type
-def get_side(record_type: int, default = "left"):
+def get_timeline_side(record_type: RecordType):
     if record_type == RecordType.TSR:
-        return "left"
+        return RecordSide.LEFT
     elif record_type == RecordType.TSN:
-        return "right"
+        return RecordSide.RIGHT
     else:
-        return default
+        return DEFAULT_ENTRY_SIDE
 
-def csv_to_timeline_entries(trows: list, side: str = "left"):
+def csv_to_timeline_entries(trows: list):
     containers = []
     for row in trows:
         
-        ts_side = get_side(row[2], side)
+        ts_side = get_timeline_side(row[2])
         pretty_date = row[0].strftime('%H:%M on %d %b %Y')
 
         html_container = f'<div class="container {ts_side}">\n<div class="content">\n'
@@ -65,16 +72,24 @@ def csv_to_timeline_entries(trows: list, side: str = "left"):
     return "".join(containers[::-1])
 
 
-def generate_html_template(html_table: str):
+def generate_html_template(embedded_html: str, stylesheet: str):
+    css = ""
+    if stylesheet:
+        css = f"""
+        <style>
+        {stylesheet}
+        </style>
+        """
+
     html_template = f"""<!DOCTYPE html>
     <html>
     <head>
-    <link rel="stylesheet" href="../assets/timeline.css">
+    {css}
     </head>
     <body>
 
     <div class="timeline">
-        {html_table}
+        {embedded_html}
     </div> 
 
     </body>
@@ -83,14 +98,32 @@ def generate_html_template(html_table: str):
 
 def html_template_to_file(html_template: str, file_path: str):
     """Save html template to file"""
-    fp = ""
+    fp = file_path
     if file_path == None:
         fp = HTML_OUTPUT_PATH
-    else:
-        fp = file_path
     
     with open(fp, "w") as f:
         f.write(html_template)
+
+def read_csv(filepath: str, recordtype: RecordType) -> list:
+    rows_buffer = []
+    with open(filepath, "r") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+
+            if len(row) == 0:
+                # omit empty rows
+                continue
+
+            raw_datetime = row[0]
+            raw_data = row[1]
+            parsed_datetime = datetime.datetime.fromisoformat(raw_datetime)
+            rows_buffer.append([parsed_datetime, raw_data, recordtype])
+    return rows_buffer
+
+def read_file_to_str(filepath):
+    with open(filepath, 'r') as file:
+        return file.read()
 
 
 # ------
@@ -101,17 +134,6 @@ def html_template_to_file(html_template: str, file_path: str):
 os.makedirs(os.path.dirname(TSR_FILE_PATH), exist_ok=True)
 os.makedirs(os.path.dirname(TSN_FILE_PATH), exist_ok=True)
 
-def read_csv(filepath: str, recordtype: RecordType) -> list:
-    rows_buffer = []
-    with open(filepath, "r") as csvfile:
-        reader = csv.reader(csvfile)
-        for row in reader:
-            raw_datetime = row[0]
-            raw_data = row[1]            
-            parsed_datetime = datetime.datetime.fromisoformat(raw_datetime)
-            rows_buffer.append([parsed_datetime, raw_data, recordtype])
-    return rows_buffer
-
 tsr_rows = []
 tsn_rows = []
 
@@ -120,10 +142,10 @@ tsn_rows = read_csv(TSN_FILE_PATH, RecordType.TSN)
 all_rows = tsr_rows + tsn_rows
 sorted_rows = sorted(all_rows, key=lambda x: x[0])
 
-# pretty_date = parsed_datetime.strftime('Started %H:%M on %d %b %Y')
+css_stylesheet = read_file_to_str(CSS_ASSETS_PATH)
 html_entries = csv_to_timeline_entries(sorted_rows)
-html_template = generate_html_template(html_entries)
-html_template_to_file(html_template, HTML_OUTPUT_PATH)
+html_template = generate_html_template(html_entries, css_stylesheet)
+_ = html_template_to_file(html_template, HTML_OUTPUT_PATH)
 
 webbrowser.open('file://'+os.path.realpath(HTML_OUTPUT_PATH))
 print("Compiled the html report.")
