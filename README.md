@@ -93,3 +93,11 @@ Simply opens Finder in the records directory so you can edit or lookup files man
 <p align="left">
   <img width="600" src="assets/tsr-raycast-tse.gif">
 </p>
+
+## Installation
+
+Installing the extension is as simple as pointing Raycast at the `raycast` directory where the scripts are.
+
+<p align="left">
+  <img width="800" src="assets/tsr-raycast-installation.gif">
+</p>
