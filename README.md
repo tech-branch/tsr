@@ -96,7 +96,9 @@ Simply opens Finder in the records directory so you can edit or lookup files man
 
 ## Installation
 
-Installing the extension is as simple as pointing Raycast at the `raycast` directory where the scripts are.
+Installing the extension is as simple as pointing Raycast at the directory where the scripts are.
+
+You can clone this repository or download it as a zip, then point Raycast Extensions at the `raycast` directory where you downloaded this repository.
 
 <p align="left">
   <img width="800" src="assets/tsr-raycast-installation.gif">
