@@ -8,7 +8,21 @@ Least invasive, csv based, linear time recorder that doesn't keep your data host
   <img width="600" src="assets/tsr-raycast-tsr-full.gif">
 </p>
 
-This tool uses a simple two-column format for storing records
+### Motivation
+
+In my daily work I often struggle with frequent context switches and stopping to write documentation. This tool helps me alleviate both of those problems.
+
+`tsr` lets me easily mark the context switches, making them much more consious and observable. Having a written record helps me measure the real scale of the problem and pinpoint productivity sinks.
+
+`tsn` allows me to write notes as I go. This at least gives me a skeleton documentation once a feature is done, minimising the effort needed to write a proper document later.
+
+I tried a few other tools over the years, but the number of features they offer often distracted me from using it efficiently, making time tracking an effort on its own.
+
+While `tsr` may not have an extensive list of features, it has proven to be effective for my needs, and I believe it may also benefit others in similar situations.
+
+### Details and usage
+
+This tool uses a simple two-column csv format for storing records
 
 ```
 datetime,tags delimited by space
