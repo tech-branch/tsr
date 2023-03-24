@@ -34,9 +34,11 @@ class RecordSide:
 # ------------
 # modify to your preference
 
-TSR_FILE_PATH = "../records/record.csv"
-TSN_FILE_PATH = "../records/notes.csv"
-HTML_OUTPUT_PATH = "../records/record.html"
+home_path = os.path.expanduser('~')
+TSR_FILE_PATH = home_path+"/tsr/record.csv"
+TSN_FILE_PATH = home_path+"/tsr/notes.csv"
+HTML_OUTPUT_PATH = home_path+"/tsr/record.html"
+
 CSS_ASSETS_PATH = "../assets/timeline.css"
 
 DEFAULT_ENTRY_SIDE = RecordSide.LEFT
