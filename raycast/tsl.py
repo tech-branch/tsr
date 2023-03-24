@@ -23,7 +23,8 @@ import os
 # ------------
 # modify to your preference
 
-FILE_PATH = "../records/record.csv"
+home_path = os.path.expanduser('~')
+FILE_PATH = home_path+"/tsr/record.csv"
 
 # ---------
 

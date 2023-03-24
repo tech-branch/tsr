@@ -17,8 +17,8 @@
 import webbrowser
 import os
 
-
-REPOSITORY_PATH = "../records"
+home_path = os.path.expanduser('~')
+REPOSITORY_PATH = home_path+"/tsr"
 
 webbrowser.open('file://'+os.path.realpath(REPOSITORY_PATH))
 print("Opening")
