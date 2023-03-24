@@ -2,6 +2,8 @@
 
 Least invasive, csv based, linear time recorder that doesn't keep your data hostage. 
 
+Your csv files are stored in the `~/tsr` directory
+
 ### Demo with a few entries and visualisation
 
 <p align="left">
