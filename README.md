@@ -112,10 +112,22 @@ Simply opens Finder in the records directory so you can edit or lookup files man
 
 ## Installation
 
+This tool is available for both `Alfred` and `Raycast`. 
+
+### Raycast
+
 Installing the extension is as simple as pointing Raycast at the directory where the scripts are.
 
 You can clone this repository or download it as a zip, then point Raycast Extensions at the `raycast` directory where you downloaded this repository.
 
 <p align="left">
   <img width="800" src="assets/tsr-raycast-installation.gif">
+</p>
+
+### Alfred
+
+Installing the workflow is as simple as double clicking the `Timestamp Record.alfredworkflow` package in the `alfred` directory and hitting "Install" once in Alfred's installation window.
+
+<p align="left">
+  <img width="800" src="assets/tsr-alfred-installation.gif">
 </p>
