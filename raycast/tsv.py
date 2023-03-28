@@ -14,15 +14,16 @@
 # @raycast.author Tomasz Sobota
 # @raycast.authorURL https://techbranch.net
 
-import datetime
-import webbrowser
 import csv
+import datetime
 import os
+import webbrowser
 
 
 class RecordType:
     TSR = 1
     TSN = 2
+
 
 class RecordSide:
     LEFT = "left"
@@ -35,9 +36,9 @@ class RecordSide:
 # modify to your preference
 
 home_path = os.path.expanduser('~')
-TSR_FILE_PATH = home_path+"/tsr/record.csv"
-TSN_FILE_PATH = home_path+"/tsr/notes.csv"
-HTML_OUTPUT_PATH = home_path+"/tsr/record.html"
+TSR_FILE_PATH = home_path + "/tsr/record.csv"
+TSN_FILE_PATH = home_path + "/tsr/notes.csv"
+HTML_OUTPUT_PATH = home_path + "/tsr/record.html"
 
 CSS_ASSETS_PATH = "../assets/timeline.css"
 
@@ -52,15 +53,15 @@ DEFAULT_ENTRY_SIDE = RecordSide.LEFT
 def get_timeline_side(record_type: RecordType):
     if record_type == RecordType.TSR:
         return RecordSide.LEFT
-    elif record_type == RecordType.TSN:
+    if record_type == RecordType.TSN:
         return RecordSide.RIGHT
-    else:
-        return DEFAULT_ENTRY_SIDE
+    return DEFAULT_ENTRY_SIDE
+
 
 def csv_to_timeline_entries(trows: list):
     containers = []
     for row in trows:
-        
+
         ts_side = get_timeline_side(row[2])
         pretty_date = row[0].strftime('%H:%M on %d %b %Y')
 
@@ -68,7 +69,7 @@ def csv_to_timeline_entries(trows: list):
         html_container += f'<h2>{row[1]}</h2>\n'
         html_container += f'<p>{pretty_date}</p>\n'
         html_container += '</div>\n</div>\n'
-        
+
         containers.append(html_container)
     # return containers as a single string with reversed order
     return "".join(containers[::-1])
@@ -92,20 +93,22 @@ def generate_html_template(embedded_html: str, stylesheet: str):
 
     <div class="timeline">
         {embedded_html}
-    </div> 
+    </div>
 
     </body>
     </html>"""
     return html_template
 
+
 def html_template_to_file(html_template: str, file_path: str):
     """Save html template to file"""
     fp = file_path
-    if file_path == None:
+    if file_path is None:
         fp = HTML_OUTPUT_PATH
-    
+
     with open(fp, "w") as f:
         f.write(html_template)
+
 
 def read_csv(filepath: str, recordtype: RecordType) -> list:
     rows_buffer = []
@@ -122,6 +125,7 @@ def read_csv(filepath: str, recordtype: RecordType) -> list:
             parsed_datetime = datetime.datetime.fromisoformat(raw_datetime)
             rows_buffer.append([parsed_datetime, raw_data, recordtype])
     return rows_buffer
+
 
 def read_file_to_str(filepath):
     with open(filepath, 'r') as file:
@@ -149,5 +153,5 @@ html_entries = csv_to_timeline_entries(sorted_rows)
 html_template = generate_html_template(html_entries, css_stylesheet)
 _ = html_template_to_file(html_template, HTML_OUTPUT_PATH)
 
-webbrowser.open('file://'+os.path.realpath(HTML_OUTPUT_PATH))
+webbrowser.open('file://' + os.path.realpath(HTML_OUTPUT_PATH))
 print("Compiled the html report.")

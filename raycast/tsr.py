@@ -16,8 +16,8 @@
 # @raycast.authorURL https://techbranch.net
 
 import datetime
-import sys
 import os
+import sys
 
 # ------------
 #  PARAMETERS
@@ -25,7 +25,7 @@ import os
 # modify to your preference
 
 home_path = os.path.expanduser('~')
-FILE_PATH = home_path+"/tsr/record.csv"
+FILE_PATH = home_path + "/tsr/record.csv"
 
 
 # ----------------------------
@@ -35,15 +35,15 @@ FILE_PATH = home_path+"/tsr/record.csv"
 tags = ""
 
 try:
-  # read tags from input
-  tags = sys.argv[1]
+    # read tags from input
+    tags = sys.argv[1]
 except IndexError:
-  # no tags provided
-  tags = "next"
+    # no tags provided
+    tags = "next"
 
 if tags == "":
-  # if we're still seeing empty tags list
-  tags = "next"
+    # if we're still seeing empty tags list
+    tags = "next"
 
 # ---------
 
