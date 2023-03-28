@@ -16,8 +16,8 @@
 # @raycast.authorURL https://techbranch.net
 
 import datetime
-import sys
 import os
+import sys
 
 # ------------
 #  PARAMETERS
@@ -25,7 +25,7 @@ import os
 # modify to your preference
 
 home_path = os.path.expanduser('~')
-FILE_PATH = home_path+"/tsr/notes.csv"
+FILE_PATH = home_path + "/tsr/notes.csv"
 
 
 # ----------------------------
@@ -35,15 +35,15 @@ FILE_PATH = home_path+"/tsr/notes.csv"
 notes = ""
 
 try:
-  # read notes from input
-  notes = sys.argv[1]
+    # read notes from input
+    notes = sys.argv[1]
 except IndexError:
-  # no notes provided
-  notes = "no note provided"
+    # no notes provided
+    notes = "no note provided"
 
 if notes == "":
-  # if we're still seeing empty notes list
-  notes = "no note provided"
+    # if we're still seeing empty notes list
+    notes = "no note provided"
 
 # ---------
 

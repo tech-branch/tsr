@@ -14,11 +14,11 @@
 # @raycast.author Tomasz Sobota
 # @raycast.authorURL https://techbranch.net
 
-import webbrowser
 import os
+import webbrowser
 
 home_path = os.path.expanduser('~')
-REPOSITORY_PATH = home_path+"/tsr"
+REPOSITORY_PATH = home_path + "/tsr"
 
-webbrowser.open('file://'+os.path.realpath(REPOSITORY_PATH))
+webbrowser.open('file://' + os.path.realpath(REPOSITORY_PATH))
 print("Opening")
